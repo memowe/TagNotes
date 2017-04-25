@@ -1,5 +1,5 @@
 package TagNotes::Note;
-use Mo qw(required builder);
+use Mo qw(required build builder);
 
 use Text::Markdown 'markdown';
 use Mojo::DOM;
@@ -7,9 +7,9 @@ use Mojo::Util 'trim';
 
 has path        => (required => 1);
 has uuid        => (builder => '_extract_uuid');
-has raw         => (builder => 'read');
-has raw_header  => (builder => 'read');
-has raw_body    => (builder => 'read');
+has raw         => (is => 'ro');
+has raw_header  => (is => 'ro');
+has raw_body    => (is => 'ro');
 
 sub _extract_uuid {
     my $self = shift;
@@ -17,7 +17,7 @@ sub _extract_uuid {
     return $1;
 }
 
-sub read {
+sub BUILD {
     my $self = shift;
 
     # slurp from file
@@ -32,7 +32,6 @@ sub read {
     $self->raw($raw);
     $self->raw_header($header);
     $self->raw_body($body);
-    return $raw;
 }
 
 sub get_meta_data {
