@@ -14,7 +14,8 @@ WriteMakefile(
         bugtracker  => 'https://github.com/memowe/TagNotes/issues',
     }},
     PREREQ_PM       => {
-        'Mojolicious'   => '7.30',
+        'Mojolicious'       => '7.30',
+        'Text::Markdown'    => '1.000031',
     },
     TEST_REQUIRES   => {
         'File::Tempdir' => '0.02',
