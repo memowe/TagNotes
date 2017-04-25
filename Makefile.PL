@@ -14,6 +14,7 @@ WriteMakefile(
         bugtracker  => 'https://github.com/memowe/TagNotes/issues',
     }},
     PREREQ_PM       => {
+        'Mo'                => '0.40',
         'Mojolicious'       => '7.30',
         'Text::Markdown'    => '1.000031',
     },
