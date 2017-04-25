@@ -1,5 +1,23 @@
 <!DOCTYPE html>
+
 <html>
-  <head><title><%= title %></title></head>
-  <body><%= content %></body>
+    <head>
+        <meta charset="utf-8">
+        <meta content="IE=edge" http-equiv="X-UA-Compatible">
+        <meta content="width=device-width, initial-scale=1" name="viewport">
+        <title>TagNotes - <%= title %></title>
+        %= javascript 'https://code.jquery.com/jquery-3.2.1.min.js'
+        %= javascript 'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js'
+        %= stylesheet 'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css'
+        %= stylesheet 'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css'
+        %= stylesheet begin
+            .nav-sidebar .active {
+                background-color: #eee;
+            }
+        % end
+    </head>
+    <body>
+        %= include 'navigation'
+        %= content
+    </body>
 </html>

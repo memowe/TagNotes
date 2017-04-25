@@ -1,0 +1,17 @@
+% layout 'default';
+% title 'Notes';
+<div class="container">
+    <div class="row">
+    % for my $note (@$notes) {
+        <div class="col-sm-6 col-md-4 col-lg-3 ">
+            <div class="thumbnail">
+                <div class="caption">
+                    <p><strong><%= link_to $note->get_name => 'note' => {uuid => $note->uuid} %></strong></p>
+                    <p>...</p>
+                    <p>...</p>
+                </div>
+            </div>
+        </div>
+    % }
+    </div>
+</div>
