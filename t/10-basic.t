@@ -44,6 +44,7 @@ subtest 'Load notes' => sub {
 
     subtest 'Inspect first note' => sub {
         isa_ok $n1 => 'TagNotes::Note';
+        is $n1->uuid => $n1_uuid, 'Correct UUID';
         is $n1->path => "$ndn/note_$n1_uuid.md", 'Correct path';
         is $n1->raw => $n1_content, 'Correct raw content';
         is $n1->raw_header => "sort: 1\nfoo: bar\n", 'Correct raw header';
@@ -56,6 +57,7 @@ subtest 'Load notes' => sub {
 
     subtest 'Inspect second note' => sub {
         isa_ok $n2 => 'TagNotes::Note';
+        is $n2->uuid => $n2_uuid, 'Correct UUID';
         is $n2->path => "$ndn/note_$n2_uuid.md", 'Correct path';
         is $n2->raw => $n2_content, 'Correct raw content';
         is $n2->raw_header => "sort: 2\ntags: foo, bar quux\n",

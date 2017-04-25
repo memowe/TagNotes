@@ -4,9 +4,16 @@ use Mo qw(required builder);
 use Text::Markdown 'markdown';
 
 has path        => (required => 1);
+has uuid        => (builder => '_extract_uuid');
 has raw         => (builder => 'read');
 has raw_header  => (builder => 'read');
 has raw_body    => (builder => 'read');
+
+sub _extract_uuid {
+    my $self = shift;
+    return unless $self->path =~ /note_([0-9a-f-]+)\.md$/;
+    return $1;
+}
 
 sub read {
     my $self = shift;
