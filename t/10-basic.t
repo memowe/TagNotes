@@ -53,6 +53,7 @@ subtest 'Load notes' => sub {
             'Correct meta data';
         is_deeply $n1->get_tags => [], 'Correct tags';
         is $n1->get_html => "<p>baz</p>\n", 'Correct HTML';
+        is $n1->get_name => 'baz', 'Correct name';
     };
 
     subtest 'Inspect second note' => sub {
@@ -72,6 +73,7 @@ subtest 'Load notes' => sub {
 
 <p>This is <em>text</em></p>
 HTML
+        is $n2->get_name => 'Hello world!', 'Correct name';
     };
 };
 

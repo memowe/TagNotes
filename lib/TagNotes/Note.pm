@@ -2,6 +2,8 @@ package TagNotes::Note;
 use Mo qw(required builder);
 
 use Text::Markdown 'markdown';
+use Mojo::DOM;
+use Mojo::Util 'trim';
 
 has path        => (required => 1);
 has uuid        => (builder => '_extract_uuid');
@@ -51,6 +53,20 @@ sub get_tags {
 
 sub get_html {
     return markdown shift->raw_body;
+}
+
+sub get_name {
+    my $self = shift;
+
+    # prepare
+    my $dom = Mojo::DOM->new($self->get_html);
+
+    # try to find a headline
+    my $h1 = $dom->at('h1');
+    return trim $h1->all_text if defined $h1;
+
+    # no headline: all text
+    return trim $dom->all_text;
 }
 
 1;
