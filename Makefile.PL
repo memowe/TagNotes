@@ -17,6 +17,7 @@ WriteMakefile(
         'Mo'                => '0.40',
         'Mojolicious'       => '7.30',
         'Text::Markdown'    => '1.000031',
+        'UUID::Tiny'        => '1.04',
     },
     TEST_REQUIRES   => {
         'File::Tempdir' => '0.02',
