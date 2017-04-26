@@ -18,7 +18,7 @@ get '/' => sub {
     my $c = shift;
     my @notes = sort {$a->raw cmp $b->raw} @{$c->tagnotes->get_all_notes};
     $c->stash(notes => \@notes);
-} => 'home';
+} => 'list';
 
 get '/note/:uuid' => sub {
     my $c = shift;
