@@ -3,7 +3,7 @@ use Mo qw(required build builder);
 
 use Text::Markdown 'markdown';
 use Mojo::DOM;
-use Mojo::Util 'trim';
+use TagNotes::Util 'trim';
 
 has path        => (required => 1);
 has uuid        => (builder => '_extract_uuid');
@@ -51,7 +51,7 @@ sub get_tags {
 }
 
 sub get_html {
-    return markdown shift->raw_body;
+    return trim markdown shift->raw_body;
 }
 
 sub get_name {
