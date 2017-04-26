@@ -4,7 +4,7 @@ use Mojolicious::Lite;
 use FindBin '$Bin';
 use lib "$Bin/lib";
 use TagNotes;
-use TagNotes::Util qw(shorten trim);
+use TagNotes::Util qw(read_file shorten trim write_file);
 use List::Util 'first';
 
 plugin 'Config';
@@ -14,7 +14,8 @@ my $tagnotes = TagNotes->new(notes_dir => app->config->{notes_dir});
 app->helper(tagnotes => sub {$tagnotes});
 
 # make util functions accessible as helpers
-app->helper($_ => sub {shift; &$_(@_)}) for qw(shorten trim);
+app->helper($_ => sub {shift; &$_(@_)})
+    for qw(read_file shorten trim write_file);
 
 get '/' => sub {
     my $c = shift;

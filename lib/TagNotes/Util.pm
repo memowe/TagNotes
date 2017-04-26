@@ -5,7 +5,13 @@ use warnings;
 
 use Exporter 'import';
 
-our @EXPORT_OK = qw(shorten trim);
+our @EXPORT_OK = qw(read_file shorten trim write_file);
+
+sub read_file {
+    my $path = shift;
+    open my $fh, '<', $path or die "Couldn't open '$path': $!\n";
+    return do {local $/; <$fh>};
+}
 
 sub shorten {
     my ($str, $max_length) = @_;
@@ -30,6 +36,12 @@ sub trim {
 
     # done
     return $str;
+}
+
+sub write_file {
+    my ($path, $content) = @_;
+    open my $fh, '>', $path or die "Couldn't open '$path': $!\n";
+    print $fh $content;
 }
 
 1;

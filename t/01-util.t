@@ -4,6 +4,21 @@ use strict;
 use warnings;
 
 use Test::More;
+use File::Temp 'tempfile';
+
+subtest 'read_file' => sub {
+    use_ok 'TagNotes::Util', 'read_file';
+
+    # prepare
+    my $file    = File::Temp->new;
+    my $fn      = $file->filename;
+
+    # roundtrip
+    open my $fh, '>', $fn or die "Couldn't open '$fn': $!\n";
+    print $fh 'foo';
+    close $fh; # make sure writing is done
+    is read_file($fn) => 'foo', 'Correct file content';
+};
 
 subtest 'shorten' => sub {
     use_ok 'TagNotes::Util', 'shorten';
@@ -16,6 +31,19 @@ subtest 'shorten' => sub {
 subtest 'trim' => sub {
     use_ok 'TagNotes::Util', 'trim';
     is trim("  \n foo\n  \nbar ") => 'foo bar', 'Trimmed correctly';
+};
+
+subtest 'write_file' => sub {
+    use_ok 'TagNotes::Util', 'write_file';
+
+    # prepare
+    my $file    = File::Temp->new;
+    my $fn      = $file->filename;
+
+    # roundtrip
+    write_file($fn, 'foo');
+    open my $fh, '<', $fn or die "Couldn't open '$fn': $!\n";
+    is do {local $/; <$fh>} => 'foo', 'Correct file content';
 };
 
 done_testing;

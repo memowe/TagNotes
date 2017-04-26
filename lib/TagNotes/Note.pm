@@ -3,7 +3,7 @@ use Mo qw(required build builder);
 
 use Text::Markdown 'markdown';
 use Mojo::DOM;
-use TagNotes::Util 'trim';
+use TagNotes::Util qw(read_file trim);
 
 has path        => (required => 1);
 has uuid        => (builder => '_extract_uuid');
@@ -20,12 +20,8 @@ sub _extract_uuid {
 sub BUILD {
     my $self = shift;
 
-    # slurp from file
-    open my $fh, '<', $self->path
-        or die "Couldn't open '" . $self->path . "': $!\n";
-    my $raw = do {local $/; <$fh>};
-
-    # split via the first '------' line
+    # split file content via the first '------' line
+    my $raw = read_file $self->path;
     my ($header, $body) = split /^-+\R/m => $raw, 2;
 
     # set attributes

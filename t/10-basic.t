@@ -4,16 +4,11 @@ use strict;
 use warnings;
 
 use Test::More;
+use TagNotes::Util 'write_file';
 use File::Tempdir;
 use UUID::Tiny ':std';
 
 use_ok 'TagNotes';
-
-sub write_file {
-    my ($path, $content) = @_;
-    open my $fh, '>', $path or die "Couldn't open '$path': $!\n";
-    print $fh $content;
-}
 
 # prepare content
 my $notes_dir   = File::Tempdir->new;
