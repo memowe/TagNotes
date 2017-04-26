@@ -10,11 +10,7 @@
         %= javascript 'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js'
         %= stylesheet 'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css'
         %= stylesheet 'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css'
-        %= stylesheet begin
-            .nav-sidebar .active {
-                background-color: #eee;
-            }
-        % end
+        %= stylesheet '/css/style.css'
     </head>
     <body>
         %= include 'navigation'
