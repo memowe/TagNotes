@@ -16,7 +16,10 @@
     margin-left: -23px;
 }
 
-.nav-sidebar .active a:before,
 .nav-sidebar a:hover::before {
     color: #bbb;
+}
+
+.nav-sidebar .active a:before {
+    color: #666;
 }
