@@ -65,7 +65,7 @@ subtest 'Load notes' => sub {
             'Correct raw body';
         is_deeply $n2->get_meta_data => {sort => 2, tags => 'foo, bar quux'},
             'Correct meta data';
-        is_deeply $n2->get_tags => ['foo', 'bar quux'], 'Correct tags';
+        is_deeply $n2->get_tags => ['bar quux', 'foo'], 'Correct tags';
         is $n2->get_html =>
             '<h1>Hello world!</h1> <p>This is <em>text</em></p>',
             'Correct HTML';

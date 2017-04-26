@@ -43,7 +43,7 @@ sub get_meta_data {
 }
 
 sub get_tags {
-    return [split /,\s*/ => shift->get_meta_data->{tags} // ''];
+    return [sort split /,\s*/ => shift->get_meta_data->{tags} // ''];
 }
 
 sub get_html {
