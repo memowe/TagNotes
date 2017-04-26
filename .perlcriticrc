@@ -1,1 +1,2 @@
+[-TestingAndDebugging::ProhibitNoStrict]
 [-Modules::RequireBarewordIncludes]

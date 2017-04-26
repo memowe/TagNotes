@@ -4,7 +4,11 @@ use strict;
 use warnings;
 
 use Test::More;
+use Test::Mojo;
+use ojo;
 use File::Temp 'tempfile';
+
+use_ok 'TagNotes::Util';
 
 subtest 'read_file' => sub {
     use_ok 'TagNotes::Util', 'read_file';
@@ -44,6 +48,13 @@ subtest 'write_file' => sub {
     write_file($fn, 'foo');
     open my $fh, '<', $fn or die "Couldn't open '$fn': $!\n";
     is do {local $/; <$fh>} => 'foo', 'Correct file content';
+};
+
+subtest 'Mojolicious plugin' => sub {
+    Test::Mojo->new(a('/test' => sub {my $c = shift;
+        $c->app->plugin('TagNotes::Util');
+        $c->render(text => $c->shorten('1234567890', 5));
+    }))->get_ok('/test')->content_is('12...');
 };
 
 done_testing;
