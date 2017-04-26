@@ -57,14 +57,24 @@ sub get_html {
 sub get_name {
     my $self = shift;
 
-    # prepare
-    my $dom = Mojo::DOM->new($self->get_html);
-
     # try to find a headline
-    my $h1 = $dom->at('h1');
+    my $dom = Mojo::DOM->new($self->get_html);
+    my $h1  = $dom->at('h1');
     return trim $h1->all_text if defined $h1;
 
-    # no headline: all text
+    # no headline: nothing
+    return;
+}
+
+sub get_body_text {
+    my $self = shift;
+
+    # remove ehe headline, if any
+    my $dom = Mojo::DOM->new($self->get_html);
+    my $h1  = $dom->at('h1');
+    $h1->remove if defined $h1;
+
+    # remaining text
     return trim $dom->all_text;
 }
 

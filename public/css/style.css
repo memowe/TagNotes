@@ -23,3 +23,7 @@
 .nav-sidebar .active a:before {
     color: #666;
 }
+
+.thumbnail a.caption {
+    display: block;
+}

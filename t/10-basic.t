@@ -25,6 +25,8 @@ sort: 1
 foo: bar
 ---
 baz
+
+quux
 EOF
 write_file("$ndn/note_$n1_uuid.md", $n1_content);
 my $n2_content  = <<'EOF';
@@ -48,12 +50,13 @@ subtest 'Load notes' => sub {
         is $n1->path => "$ndn/note_$n1_uuid.md", 'Correct path';
         is $n1->raw => $n1_content, 'Correct raw content';
         is $n1->raw_header => "sort: 1\nfoo: bar\n", 'Correct raw header';
-        is $n1->raw_body => "baz\n", 'Correct raw body';
+        is $n1->raw_body => "baz\n\nquux\n", 'Correct raw body';
         is_deeply $n1->get_meta_data => {sort => 1, foo => 'bar'},
             'Correct meta data';
         is_deeply $n1->get_tags => [], 'Correct tags';
-        is $n1->get_html => "<p>baz</p>\n", 'Correct HTML';
-        is $n1->get_name => 'baz', 'Correct name';
+        is $n1->get_html => "<p>baz</p> <p>quux</p>", 'Correct HTML';
+        is $n1->get_name => undef, 'No name';
+        is $n1->get_body_text => "baz quux", 'Correct body text';
     };
 
     subtest 'Inspect second note' => sub {
@@ -68,12 +71,11 @@ subtest 'Load notes' => sub {
         is_deeply $n2->get_meta_data => {sort => 2, tags => 'foo, bar quux'},
             'Correct meta data';
         is_deeply $n2->get_tags => ['foo', 'bar quux'], 'Correct tags';
-        is $n2->get_html => <<'HTML', 'Correct HTML';
-<h1>Hello world!</h1>
-
-<p>This is <em>text</em></p>
-HTML
+        is $n2->get_html =>
+            '<h1>Hello world!</h1> <p>This is <em>text</em></p>',
+            'Correct HTML';
         is $n2->get_name => 'Hello world!', 'Correct name';
+        is $n2->get_body_text => 'This is text', 'Correct body text';
     };
 };
 

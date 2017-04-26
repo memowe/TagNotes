@@ -3,13 +3,12 @@
 <div class="container">
     <div class="row">
     % for my $note (@$notes) {
-        <div class="col-sm-6 col-md-4 col-lg-3 ">
+        <div class="col-sm-6 col-md-4 col-lg-3">
             <div class="thumbnail">
-                <div class="caption">
-                    <p><strong><%= link_to $note->get_name => 'note' => {uuid => $note->uuid} %></strong></p>
-                    <p>...</p>
-                    <p>...</p>
-                </div>
+                %= link_to note => {uuid => $note->uuid} => (class => 'caption') => begin
+                    <p><strong><%= $note->get_name =%></strong></p>
+                    <p><%= $note->get_body_text =%></p>
+                % end
             </div>
         </div>
     % }
