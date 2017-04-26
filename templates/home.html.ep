@@ -1,13 +1,13 @@
 % layout 'default';
 % title 'Notes';
 <div class="container">
-    <div class="row">
+    <div class="notes row">
     % for my $note (@$notes) {
-        <div class="col-sm-6 col-md-4 col-lg-3">
+        <div class="note col-sm-6 col-md-4 col-lg-3">
             <div class="thumbnail">
                 %= link_to note => {uuid => $note->uuid} => (class => 'caption') => begin
-                    <p><strong><%= $note->get_name =%></strong></p>
-                    <p><%= $note->get_body_text =%></p>
+                    <h2><%= $note->get_name =%></h2>
+                    <p><%= shorten $note->get_body_text, 150 =%></p>
                 % end
             </div>
         </div>
