@@ -1,3 +1,22 @@
-.nav-sidebar .active {
+.nav-sidebar li a {
+    display: block;
+    padding-left: 38px;
+}
+
+.nav-sidebar li.active a {
     background-color: #eee;
+}
+
+.nav-sidebar a:before {
+    content: "\e022";
+    font-family: 'Glyphicons Halflings';
+    color: #ccc;
+    float: left;
+    margin-top: -1px;
+    margin-left: -23px;
+}
+
+.nav-sidebar .active a:before,
+.nav-sidebar a:hover::before {
+    color: #bbb;
 }

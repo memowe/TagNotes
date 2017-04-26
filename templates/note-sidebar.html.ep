@@ -2,10 +2,7 @@
 % for my $note (@$notes) {
     % my $class = $uuid eq $note->uuid ? 'active' : '';
     <li id="note_<%= $note->uuid %>" class="<%= $class %>">
-        %= link_to 'note' => {uuid => $note->uuid} => begin
-            <span class="glyphicon glyphicon-file"></span>
-            <strong><%= $note->get_name %></strong>
-        % end
+        %= link_to $note->get_name => note => {uuid => $note->uuid}
     </li>
 % }
 </ul>
