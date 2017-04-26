@@ -37,7 +37,7 @@ subtest 'Load notes' => sub {
 
     # load
     my $tagnotes    = TagNotes->new(notes_dir => $ndn);
-    my ($n1, $n2)   = sort {$a->raw cmp $b->raw} @{$tagnotes->notes};
+    my ($n1, $n2)   = sort {$a->raw cmp $b->raw} @{$tagnotes->get_all_notes};
 
     subtest 'Inspect first note' => sub {
         isa_ok $n1 => 'TagNotes::Note';

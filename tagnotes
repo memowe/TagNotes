@@ -4,7 +4,6 @@ use Mojolicious::Lite;
 use FindBin '$Bin';
 use lib "$Bin/lib";
 use TagNotes;
-use List::Util 'first';
 
 plugin 'Config';
 
@@ -17,20 +16,20 @@ app->helper(tagnotes => sub {$tagnotes});
 
 get '/' => sub {
     my $c = shift;
-    $c->stash(notes => $c->tagnotes->notes);
+    my @notes = sort {$a->raw cmp $b->raw} @{$c->tagnotes->get_all_notes};
+    $c->stash(notes => \@notes);
 } => 'home';
 
 get '/note/:uuid' => sub {
     my $c = shift;
 
     # lookup
-    my $uuid    = $c->param('uuid');
-    my $notes   = $c->tagnotes->notes;
-    my $note    = first {$_->path =~ /note_$uuid\.md$/} @$notes;
+    my $note = $c->tagnotes->get_note($c->param('uuid'));
     return $c->reply->not_found unless defined $note;
 
-    # prepare
-    $c->stash(note => $note, notes => $notes);
+    # sort
+    my @notes = sort {$a->raw cmp $b->raw} @{$c->tagnotes->get_all_notes};
+    $c->stash(note => $note, notes => \@notes);
 } => 'note';
 
 app->start;

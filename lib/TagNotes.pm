@@ -4,7 +4,7 @@ use Mo qw(required builder);
 use TagNotes::Note;
 
 has notes_dir   => (required => 1);
-has notes       => (is => 'ro', builder => 'read_notes');
+has _note       => (is => 'ro', builder => 'read_notes');
 
 sub read_notes {
     my $self = shift;
@@ -20,9 +20,19 @@ sub read_notes {
         push @notes, TagNotes::Note->new(path => $entry)
     }
 
-    # done
-    $self->notes(\@notes);
-    return $self->notes;
+    # build hash uuid -> note object
+    my %note = map {$_->uuid => $_} @notes;
+    return \%note;
+}
+
+sub get_note {
+    my ($self, $uuid) = @_;
+    return $self->_note->{$uuid};
+}
+
+sub get_all_notes {
+    my $self = shift;
+    return [values %{$self->_note}];
 }
 
 1;
