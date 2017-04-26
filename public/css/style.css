@@ -42,3 +42,20 @@
 .thumbnail p {
     margin: 1em 0 0;
 }
+
+.main .tags {
+    border-bottom: medium solid #eee;
+    padding-bottom: .5em;
+}
+
+.main .tags strong {
+    margin-right: 1ex;
+}
+
+.main .note-tags .label {
+    margin: 0 .3ex;
+}
+
+.thumbnail .note-tags {
+    font-size: .9em;
+}

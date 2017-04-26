@@ -9,6 +9,11 @@
                     <h2><%= $note->get_name =%></h2>
                     <p><%= shorten $note->get_body_text, 150 =%></p>
                 % end
+                <div class="tags note-tags">
+                % for my $tag (@{$note->get_tags}) {
+                    %= link_to $tag => tag => {tag => $tag} => (class => 'label label-default')
+                % }
+                </div>
             </div>
         </div>
     % }
