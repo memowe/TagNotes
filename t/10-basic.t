@@ -76,6 +76,14 @@ subtest 'Load notes' => sub {
         is $n2->get_name => 'Hello world!', 'Correct name';
         is $n2->get_body_text => 'This is text', 'Correct body text';
     };
+
+    subtest 'Tag index' => sub {
+        is_deeply $tagnotes->get_tag_notes('foo') => [$n2], 'Correct foo notes';
+        my $baz_notes = $tagnotes->get_tag_notes('baz');
+        my @baz_notes = sort {$a->raw cmp $b->raw} @$baz_notes;
+        is_deeply \@baz_notes => [$n1, $n2], 'Correct baz notes';
+        is_deeply $tagnotes->get_tag_notes('bar') => [], 'No bar notes';
+    };
 };
 
 done_testing;
