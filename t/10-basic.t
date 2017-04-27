@@ -38,6 +38,8 @@ subtest 'Load notes' => sub {
     # load
     my $tagnotes    = TagNotes->new(notes_dir => $ndn);
     my ($n1, $n2)   = sort {$a->raw cmp $b->raw} @{$tagnotes->get_all_notes};
+    is $tagnotes->get_note($n1_uuid) => $n1, 'First note found';
+    is $tagnotes->get_note($n2_uuid) => $n2, 'Second note found';
 
     subtest 'Inspect first note' => sub {
         isa_ok $n1 => 'TagNotes::Note';
