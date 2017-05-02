@@ -83,6 +83,9 @@ subtest 'Load notes' => sub {
         my @baz_notes = sort {$a->raw cmp $b->raw} @$baz_notes;
         is_deeply \@baz_notes => [$n1, $n2], 'Correct baz notes';
         is_deeply $tagnotes->get_tag_notes('bar') => [], 'No bar notes';
+        is_deeply $tagnotes->get_all_tags => {
+            foo => 1, 'bar quux' => 1, baz => 2
+        }, 'Correct tag cloud';
     };
 };
 

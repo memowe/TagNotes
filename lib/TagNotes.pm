@@ -44,5 +44,19 @@ sub get_tag_notes {
     return [values %{$self->_notes_by_tag->{$tag} // {}}];
 }
 
+# tag cloud {tag => note count}
+sub get_all_tags {
+    my $self = shift;
+
+    # transform {uuid => note} to uuid count
+    my %notes_per_tag;
+    while (my ($tag, $data) = each %{$self->_notes_by_tag}) {
+        $notes_per_tag{$tag} = scalar keys %$data;
+    }
+
+    # done
+    return \%notes_per_tag;
+}
+
 1;
 __END__
