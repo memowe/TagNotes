@@ -1,7 +1,14 @@
 % layout 'default';
 % my $headline = defined(stash('tag')) ? 'All notes for ' . stash('tag') : 'All notes';
 % title $headline;
+<div class="container-fluid">
+    %= include 'tag_list'
+</div>
 <div class="container">
+    % if (defined stash('tag')) {
+        % my $related_tags = tagnotes->get_related_tags(stash('tag'));
+        %= include 'tag_list', tags => tagnotes->get_tag_cloud(tagnotes->get_related_tags(stash('tag')));
+    % }
     <h1 class="page-header"><%= $headline %></h1>
     <div class="notes row">
     % for my $note (@$notes) {

@@ -1,0 +1,9 @@
+<div class="tag-list well">
+    <strong><%= stash('tags') ? 'Related tags' : 'All tags' %></strong>:
+    % my $tag_list = stash('tags') // tagnotes->get_tag_cloud;
+    % for my $tag (sort keys %$tag_list) {
+        % my $count     = $tag_list->{$tag};
+        % my $note_word = $count == 1 ? 'note' : 'notes';
+        %= link_to $tag => tag => {tag => $tag} => (class => 'label label-default', title => "$count $note_word")
+    % }
+</div>

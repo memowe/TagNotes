@@ -1,0 +1,25 @@
+% layout 'default';
+% my $headline = 'All tags';
+% title $headline;
+%
+% my $tag_cloud = stash('tags') // tagnotes->get_tag_cloud;
+% my ($min, $max) = ('inf', 0);
+% for my $count (values %$tag_cloud) {
+%   $min = $count if $count < $min;
+%   $max = $count if $count > $max;
+% }
+%
+<div class="container">
+    <h1 class="page-header"><%= $headline %></h1>
+    <div class="tag-cloud">
+        % my ($min_size, $max_size) = (config('tag_cloud_min'), config('tag_cloud_max'));
+        % for my $tag (sort keys %$tag_cloud) {
+            % my $count     = $tag_cloud->{$tag};
+            % my $part      = ($count - $min) / ($max - $min);
+            % my $size      = $min_size + ($part * ($max_size - $min_size));
+            % my $note_word = $count == 1 ? 'note' : 'notes';
+            %
+            %= link_to $tag => tag => {tag => $tag} => (class => 'label label-default', style => 'font-size: ' . $size . 'em', title => "$count $note_word")
+        % }
+    </div>
+</div>

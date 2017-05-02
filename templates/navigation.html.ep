@@ -10,8 +10,8 @@
             %= link_to TagNotes => 'list', (class => "navbar-brand")
         </div>
         <div class="navbar-collapse collapse" id="navbar">
-            <ul class="nav navbar-nav navbar-right">
-                <li><%= link_to 'Mirko Westermeier' => 'http://mirko.westermeier.de' %></li
+            <ul class="nav navbar-nav">
+                <li class="<%= stash('tag_cloud') ? 'active' : '' %>"><%= link_to 'All tags' => 'tag_cloud' %></li>
             </ul>
         </div>
     </div>

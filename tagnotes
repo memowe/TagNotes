@@ -32,6 +32,11 @@ get '/note/:uuid' => sub {
     $c->stash(note => $note, notes => \@notes);
 } => 'note';
 
+get '/tags' => sub {
+    my $c = shift;
+    $c->stash(tag_cloud => $c->tagnotes->get_tag_cloud);
+} => 'tag_cloud';
+
 get '/tag/:tag' => sub {
     my $c = shift;
 
