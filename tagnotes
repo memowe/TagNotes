@@ -12,7 +12,7 @@ plugin 'TagNotes::Util';
 
 # configure tagnotes helper
 my $tagnotes = TagNotes->new(notes_dir => app->config->{notes_dir});
-app->helper(tagnotes => sub {$tagnotes});
+helper tagnotes => sub {$tagnotes};
 
 get '/' => sub {
     my $c = shift;
