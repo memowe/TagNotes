@@ -17,7 +17,7 @@ my $n1_uuid     = create_uuid_as_string;
 my $n2_uuid     = create_uuid_as_string;
 my $n1_content  = <<'EOF';
 sort: 1
-tags: baz
+tags: bar, baz
 foo: bar
 ---
 baz
@@ -47,12 +47,12 @@ subtest 'Load notes' => sub {
         is $n1->uuid => $n1_uuid, 'Correct UUID';
         is $n1->path => "$ndn/note_$n1_uuid.md", 'Correct path';
         is $n1->raw => $n1_content, 'Correct raw content';
-        is $n1->raw_header => "sort: 1\ntags: baz\nfoo: bar\n",
+        is $n1->raw_header => "sort: 1\ntags: bar, baz\nfoo: bar\n",
             'Correct raw header';
         is $n1->raw_body => "baz\n\nquux\n", 'Correct raw body';
         is_deeply $n1->get_meta_data =>
-            {sort => 1, foo => 'bar', tags => 'baz'}, 'Correct meta data';
-        is_deeply $n1->get_tags => ['baz'], 'Correct tags';
+            {sort => 1, foo => 'bar', tags => 'bar, baz'}, 'Correct meta data';
+        is_deeply $n1->get_tags => ['bar', 'baz'], 'Correct tags';
         is $n1->get_html => "<p>baz</p> <p>quux</p>", 'Correct HTML';
         is $n1->get_name => undef, 'No name';
         is $n1->get_body_text => "baz quux", 'Correct body text';
@@ -82,10 +82,22 @@ subtest 'Load notes' => sub {
         my $baz_notes = $tagnotes->get_tag_notes('baz');
         my @baz_notes = sort {$a->raw cmp $b->raw} @$baz_notes;
         is_deeply \@baz_notes => [$n1, $n2], 'Correct baz notes';
-        is_deeply $tagnotes->get_tag_notes('bar') => [], 'No bar notes';
+        my $bar_notes = $tagnotes->get_tag_notes('bar');
+        is_deeply $bar_notes => [$n1], 'Correct bar notes';
         is_deeply $tagnotes->get_all_tags => {
-            foo => 1, 'bar quux' => 1, baz => 2
+            foo => 1, bar => 1, 'bar quux' => 1, baz => 2
         }, 'Correct tag cloud';
+    };
+
+    subtest 'Related tags' => sub {
+        is_deeply $tagnotes->get_related_tags('bar') =>
+            ['bar', 'baz'], 'Related tags to bar';
+        is_deeply $tagnotes->get_related_tags('bar quux') =>
+            ['bar quux', 'baz', 'foo'], 'Related tags to bar quux';
+        is_deeply $tagnotes->get_related_tags('baz') =>
+            ['bar', 'bar quux', 'baz', 'foo'], 'Related tags to baz';
+        is_deeply $tagnotes->get_related_tags('foo') =>
+            ['bar quux', 'baz', 'foo'], 'Related tags to foo';
     };
 };
 

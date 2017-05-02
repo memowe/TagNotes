@@ -58,5 +58,19 @@ sub get_all_tags {
     return \%notes_per_tag;
 }
 
+# loads tags of notes which have the given tag
+sub get_related_tags {
+    my ($self, $tag) = @_;
+
+    # iterate related notes
+    my %tags;
+    for my $note (@{$self->get_tag_notes($tag)}) {
+        $tags{$_} = 1 for @{$note->get_tags};
+    }
+
+    # done
+    return [sort keys %tags];
+}
+
 1;
 __END__
