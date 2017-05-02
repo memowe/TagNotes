@@ -44,14 +44,22 @@ sub get_tag_notes {
     return [values %{$self->_notes_by_tag->{$tag} // {}}];
 }
 
-# tag cloud {tag => note count}
 sub get_all_tags {
     my $self = shift;
+    return [sort keys %{$self->_notes_by_tag // {}}];
+}
+
+# tag cloud {tag => note count} (for a given list)
+sub get_tag_cloud {
+    my ($self, $tags) = @_;
+
+    # no tags: get all tags
+    $tags //= $self->get_all_tags;
 
     # transform {uuid => note} to uuid count
     my %notes_per_tag;
-    while (my ($tag, $data) = each %{$self->_notes_by_tag}) {
-        $notes_per_tag{$tag} = scalar keys %$data;
+    for my $tag (@$tags) {
+        $notes_per_tag{$tag} = @{$self->get_tag_notes($tag)};
     }
 
     # done

@@ -84,9 +84,15 @@ subtest 'Load notes' => sub {
         is_deeply \@baz_notes => [$n1, $n2], 'Correct baz notes';
         my $bar_notes = $tagnotes->get_tag_notes('bar');
         is_deeply $bar_notes => [$n1], 'Correct bar notes';
-        is_deeply $tagnotes->get_all_tags => {
-            foo => 1, bar => 1, 'bar quux' => 1, baz => 2
+        is_deeply $tagnotes->get_all_tags => [
+            'bar', 'bar quux', 'baz', 'foo',
+        ], 'Correct tag list';
+        is_deeply $tagnotes->get_tag_cloud => {
+            foo => 1, bar => 1, 'bar quux' => 1, baz => 2,
         }, 'Correct tag cloud';
+        is_deeply $tagnotes->get_tag_cloud([qw(foo baz)]) => {
+            foo => 1, baz => 2,
+        }, 'Correct subset tag cloud';
     };
 
     subtest 'Related tags' => sub {
