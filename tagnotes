@@ -34,7 +34,19 @@ get '/note/:uuid' => sub {
 
 get '/tag/:tag' => sub {
     my $c = shift;
-    die 'Implement';
+
+    # lookup
+    my $tag     = $c->param('tag');
+    my $notes   = $c->tagnotes->get_tag_notes($tag);
+    return $c->reply->not_found unless @$notes;
+
+    # render like note listing
+    my @notes = sort {$a->raw cmp $b->raw} @$notes;
+    $c->render(
+        tag         => $tag,
+        notes       => \@notes,
+        template    => 'list',
+    );
 } => 'tag';
 
 app->start;

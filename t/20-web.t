@@ -9,6 +9,7 @@ use TagNotes::Util qw(write_file shorten);
 use File::Tempdir;
 use UUID::Tiny ':std';
 use Mojo::DOM;
+use Mojo::Util 'url_escape';
 
 # prepare content
 my $notes_dir   = File::Tempdir->new;
@@ -18,6 +19,7 @@ my $n2_uuid     = create_uuid_as_string;
 my $n1_content  = <<'EOF';
 sort: 1
 foo: bar
+tags: bar quux
 ---
 baz
 
@@ -127,6 +129,41 @@ subtest 'Second note' => sub {
         is $tag->attr('href') => $t->app->url_for(tag => {tag => $name}),
             'Correct tag URL';
     }
+};
+
+subtest 'Notes for tags' => sub {
+
+    subtest 'Unknown tag' => sub {
+        $t->get_ok('/tag/xnorfzt')->status_is(404);
+        $t->content_like(qr/not found/i);
+    };
+
+    subtest 'Tag with one note' => sub {
+        $t->get_ok('/tag/foo')->status_is(200);
+        $t->text_is(h1 => 'All notes for foo');
+        $t->element_count_is('.note' => 1);
+        $t->text_is('.note h2' => $n2->get_name);
+        my $link = $t->tx->res->dom('.note a')->first;
+        is $link->attr('href') => $t->app->url_for(note => {uuid => $n2->uuid}),
+            'Correct link';
+    };
+
+    subtest 'Tag with two notes' => sub {
+        my $tag_in_url = url_escape 'bar quux';
+        $t->get_ok("/tag/$tag_in_url")->status_is(200);
+        $t->text_is(h1 => 'All notes for bar quux');
+        $t->element_count_is('.note' => 2);
+        $t->text_is('.note:first-child h2' => '');
+        my $link1 = $t->tx->res->dom('.note:first-child a')->first;
+        is $link1->attr('href') =>
+            $t->app->url_for(note => {uuid => $n1->uuid}),
+            'Correct first note link';
+        $t->text_is('.note:nth-child(2) h2' => $n2->get_name);
+        my $link2 = $t->tx->res->dom('.note:nth-child(2) a')->first;
+        is $link2->attr('href') =>
+            $t->app->url_for(note => {uuid => $n2->uuid}),
+            'Correct first note link';
+    };
 };
 
 done_testing;
