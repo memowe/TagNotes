@@ -1,6 +1,8 @@
 % layout 'default';
-% title 'Notes';
+% my $headline = defined(stash('tag')) ? 'All notes for ' . stash('tag') : 'All notes';
+% title $headline;
 <div class="container">
+    <h1 class="page-header"><%= $headline %></h1>
     <div class="notes row">
     % for my $note (@$notes) {
         <div class="note col-sm-6 col-md-4 col-lg-3">

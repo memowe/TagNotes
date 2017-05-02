@@ -46,7 +46,8 @@ my ($n1, $n2) = map {$t->app->tagnotes->get_note($_)} $n1_uuid, $n2_uuid;
 
 subtest 'Note listing' => sub {
 
-    $t->get_ok('/')->status_is(200)->text_is(title => 'TagNotes - Notes');
+    $t->get_ok('/')->status_is(200)->text_is(title => 'TagNotes - All notes');
+    $t->text_is(h1 => 'All notes');
     $t->element_count_is('.notes .note' => 2);
     $t->text_is('.note:first-child .caption h2' => '');
     $t->text_is('.note:first-child .caption p' => $n1->get_body_text);
