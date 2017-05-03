@@ -42,11 +42,7 @@ get '/tag/:tag' => sub {
 
     # render like note listing
     my @notes = sort {$a->raw cmp $b->raw} @$notes;
-    $c->render(
-        tag         => $tag,
-        notes       => \@notes,
-        template    => 'list',
-    );
+    $c->render(tag => $tag, notes => \@notes, template => 'list');
 } => 'tag';
 
 app->start;
